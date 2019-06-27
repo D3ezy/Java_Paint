@@ -13,7 +13,6 @@
 package cs338.gui;
 
 import javax.swing.*;
-import java.util.logging;
 
  public class MainFrame {
 
