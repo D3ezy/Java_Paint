@@ -34,11 +34,11 @@ public class RESTClient {
     public void getResponse() {
         try {
             this.cr = this.webResource.accept("application/json").get(ClientResponse.class);
-            if (response.getStatus() != 200) {
+            if (this.cr.getStatus() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "
-                + response.getStatus());
+                + this.cr.getStatus());
             }
-            this.currResponse = response.getEntity(String.class);
+            this.currResponse = this.cr.getEntity(String.class);
             printJSONFormatted(this.currResponse);
         } catch (Exception e) {
             e.printStackTrace();

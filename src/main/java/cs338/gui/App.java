@@ -14,6 +14,6 @@ package cs338.gui;
 public class App {
     
     public static void main(String[] args) {
-        return;
+        new MainFrame().setVisible(true);
     }
 }
