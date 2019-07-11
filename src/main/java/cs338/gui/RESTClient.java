@@ -50,15 +50,13 @@ public class RESTClient {
     }
     
     public String getCommonName(String id) {
-        String taxa = "taxa/";
+        /*String taxa = "taxa/";
         System.out.println(baseSite + taxa + id + "?");
         this.webResource = client.resource(baseSite + taxa + id + "?");
         String response = this.getResponse();
         System.out.println(response);
-        Gson gson = new Gson();
-        TaxaByID t = gson.fromJson(response, TaxaByID.class);
-        System.out.println(t.data);
-        return null; // commonName;
+        Gson gson = new Gson();*/
+        return "memes";
     }
 
     // private methods
