@@ -5,7 +5,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -14,8 +13,8 @@ import javax.swing.JPanel;
 public class MainFrame extends JFrame {
 
     JMenuBar menubar;
-    JMenu filemenu;
-    JMenuItem item; 
+    JMenu filemenu, viewmenu;
+    JMenuItem newFile, zoomIn, zoomOut; 
     
     public MainFrame() {
         initComponents();
@@ -31,9 +30,16 @@ public class MainFrame extends JFrame {
         // --------------------------------- //
         menubar = new JMenuBar();
         filemenu = new JMenu("File");
-        item = new JMenuItem("New...");
-        filemenu.add(item);
+        viewmenu = new JMenu("View");
+        newFile = new JMenuItem("New...");
+        zoomIn = new JMenuItem("Zoom in");
+        zoomOut = new JMenuItem("Zoom out");
+
+        filemenu.add(newFile);
+        viewmenu.add(zoomIn);
+        viewmenu.add(zoomOut);
         menubar.add(filemenu);
+        menubar.add(viewmenu);
 
         // ---- Ribbon ---------------------- //
         Ribbon ribbon = new Ribbon();
@@ -56,7 +62,8 @@ public class MainFrame extends JFrame {
         this.add(ribbonContainer, BorderLayout.NORTH);
         this.add(canvasContainer, BorderLayout.WEST);
         this.add(info_bar, BorderLayout.SOUTH);
-        this.setPreferredSize(new Dimension(800,600));
+        this.setTitle("Java Paint v0.9");
+        this.setPreferredSize(new Dimension(800,1000));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
     }

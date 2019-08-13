@@ -12,6 +12,8 @@ import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Ribbon extends JPanel {
 
@@ -111,6 +113,13 @@ public class Ribbon extends JPanel {
 
         // Brushes
         brushes = new JButton("Brushes");
+        brushes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BrushSizeWindow bsw = new BrushSizeWindow();
+                bsw.setVisible(true);
+            }
+        });
 
         // Brush Size
         pencilsize = new JButton("Size");
