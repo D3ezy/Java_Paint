@@ -8,11 +8,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-public class PaintCanvas extends JPanel implements MouseListener, MouseMotionListener {
+public class PaintCanvasView extends JPanel implements MouseListener, MouseMotionListener {
 
     private int oldX, oldY, currX, currY;
 
-    PaintCanvas() {
+    PaintCanvasView() {
         super();
         this.setSize(this.getPreferredSize());
         this.addMouseListener(this);

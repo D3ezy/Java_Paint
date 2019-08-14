@@ -13,7 +13,7 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;;
 
-public class InfoBar extends JPanel implements MouseListener {
+public class InfoBarView extends JPanel implements MouseListener {
 
     int canvasX, canvasY, currX, currY, selectionX, selectionY;
     ImageIcon currPosIcon, canvasSizeIcon, selectionAreaIcon;
@@ -21,7 +21,7 @@ public class InfoBar extends JPanel implements MouseListener {
     JSlider zoomSlider;
     JSeparator sep1,sep2,sep3,sep4,sep5;
 
-    InfoBar() {
+    InfoBarView() {
         super();
         this.addMouseListener(this);
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));

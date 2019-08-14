@@ -1,0 +1,18 @@
+Checklist of things to do:
+
+Create Tool Tips
+Center Windows
+Create Modal Dialogs
+Save/Open
+Add Icons to Buttons
+Implement Canvas Drawing
+Implement Basic Shape Drawing
+Implement Erasing
+Finish Creating Windows
+Align Layouts and fix spacing
+Finish Info Bar Logic
+Add scroll panes
+Add canvas resizing
+Add zoom feature
+Add shortcuts
+Create button logic

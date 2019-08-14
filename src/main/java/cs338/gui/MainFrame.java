@@ -1,5 +1,6 @@
 package cs338.gui;
 
+import cs338.gui.ribbon.RibbonView;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JFrame;
@@ -25,39 +26,23 @@ public class MainFrame extends JFrame {
         // Frame layout
         this.setLayout(new BorderLayout(5,5));
 
-        // --------------------------------- //
         // ---- Menu Bar ------------------- //
-        // --------------------------------- //
-        menubar = new JMenuBar();
-        filemenu = new JMenu("File");
-        viewmenu = new JMenu("View");
-        newFile = new JMenuItem("New...");
-        zoomIn = new JMenuItem("Zoom in");
-        zoomOut = new JMenuItem("Zoom out");
-
-        filemenu.add(newFile);
-        viewmenu.add(zoomIn);
-        viewmenu.add(zoomOut);
-        menubar.add(filemenu);
-        menubar.add(viewmenu);
+        menubar = new MenuBarView();
 
         // ---- Ribbon ---------------------- //
-        Ribbon ribbon = new Ribbon();
+        RibbonView ribbon = new RibbonView();
         JPanel ribbonContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
         ribbonContainer.add(ribbon);
 
         // ---- Canvas ---------------------- //
-        PaintCanvas canvas = new PaintCanvas();
+        PaintCanvasView canvas = new PaintCanvasView();
         JPanel canvasContainer = new JPanel(new BorderLayout(10,10));
         canvasContainer.add(canvas, BorderLayout.NORTH);
 
         // ---- Bottom Info Bar ------------- //
-        InfoBar info_bar = new InfoBar();
+        InfoBarView info_bar = new InfoBarView();
 
-        // ---------------------------------- //
         // ---- Add Panels------------------- //
-        // ---------------------------------- //
-
         this.setJMenuBar(menubar);
         this.add(ribbonContainer, BorderLayout.NORTH);
         this.add(canvasContainer, BorderLayout.WEST);
