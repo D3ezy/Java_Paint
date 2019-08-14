@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 public class RibbonSizeView extends JPanel {
 
+    private static final long serialVersionUID = 1L;
     JButton pencilSize;
 
     RibbonSizeView() {

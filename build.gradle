@@ -6,7 +6,16 @@
  * user guide available at https://docs.gradle.org/4.3/userguide/java_library_plugin.html
  */
 
-// Apply the java-library plugin to add support for Java Library
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.1.0'
+    }
+}
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
 apply plugin: 'java-library'
 
 // In this section you declare where to find the dependencies of your project
@@ -17,8 +26,8 @@ repositories {
 }
 
 version = '0.1'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 dependencies {
   // This dependency is exported to consumers, that is to say found on their compile classpath.
@@ -26,9 +35,11 @@ dependencies {
 
   // icon dependencies
   compile 'org.kordamp.ikonli:ikonli-swing:11.3.4'
+  // implementation 'org.kordamp.ikonli:ikonli-swing:11.3.4'
 
   // icon pack
   compile 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.3.4'
+  //implementation 'org.kordamp.ikonli:ikonli-fontawesome5-pack:11.3.4'
 
   // gson library
   // implementation 'com.google.code.gson:gson:2.8.5'
@@ -39,13 +50,17 @@ dependencies {
 
 }
 
-task fatJar(type: Jar) {
+jar {
   manifest {
     attributes 'Implementation-Title': 'My Tool',
                'Implementation-Version': version,
                'Main-Class': 'cs338.gui.App'
   }
-  baseName = project.name + '-all'
-  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-  with jar
+}
+
+shadowJar {
+   baseName = 'JavaPaint'
+   classifier = null
+   version = 0.1
+   mergeServiceFiles()
 }

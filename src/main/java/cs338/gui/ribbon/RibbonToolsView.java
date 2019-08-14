@@ -1,14 +1,20 @@
 package cs338.gui.ribbon;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.kordamp.ikonli.fontawesome5.FontAwesomeRegular;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import org.kordamp.ikonli.swing.FontIcon;
+
 public class RibbonToolsView extends JPanel {
 
+    private static final long serialVersionUID = 1L;
     JPanel ribbon_inner_tools;
     JButton pencil, magnify, eraser, font, dropper, paintcan;
 
@@ -16,6 +22,7 @@ public class RibbonToolsView extends JPanel {
         super();
         this.setLayout(new BorderLayout());
         initComponents();
+        prepareIcons();
     }
 
     public void initComponents() {
@@ -29,7 +36,7 @@ public class RibbonToolsView extends JPanel {
         JLabel toolsLabel = new JLabel("Tools", SwingConstants.CENTER);
 
         // buttons
-        pencil = new JButton("P");
+        pencil = new JButton();
         eraser = new JButton("E");
         font = new JButton("F");
         magnify = new JButton("M");
@@ -46,6 +53,11 @@ public class RibbonToolsView extends JPanel {
 
         this.add(ribbon_inner_tools, BorderLayout.NORTH);
         this.add(toolsLabel, BorderLayout.SOUTH);
+    }
+
+    private void prepareIcons() {
+        FontIcon pencil_icon = FontIcon.of(FontAwesomeSolid.PENCIL_ALT, Color.BLACK);
+        pencil.setIcon(pencil_icon);
     }
 
 }
