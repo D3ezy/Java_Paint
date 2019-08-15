@@ -11,9 +11,15 @@
  */
 package cs338.gui;
 
+import javax.swing.SwingUtilities;
+
 public class App {
     
     public static void main(String[] args) {
-        new MainFrame().setVisible(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new MainFrame().setVisible(true);
+            }
+        });
     }
 }

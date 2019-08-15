@@ -1,6 +1,7 @@
 package cs338.gui.ribbon;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -8,8 +9,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import org.kordamp.ikonli.swing.FontIcon;
+
 public class RibbonShapesView extends JPanel {
 
+    private static final long serialVersionUID = 1L;
     JPanel inner_shapes;
     JButton shapes, shapeOutline, shapeFill;
 
@@ -17,6 +22,7 @@ public class RibbonShapesView extends JPanel {
         super();
         this.setLayout(new BorderLayout());
         initComponents();
+        prepareIcons();
     }
 
     public void initComponents() {
@@ -41,6 +47,13 @@ public class RibbonShapesView extends JPanel {
         this.add(shapes, BorderLayout.CENTER);
         this.add(inner_shapes, BorderLayout.EAST);
         this.add(shapesLabel, BorderLayout.SOUTH);
+    }
+
+    private void prepareIcons() {
+        FontIcon shapeOutline_icon = FontIcon.of(FontAwesomeSolid.OUTDENT, Color.BLACK);
+        FontIcon shapeFill_icon = FontIcon.of(FontAwesomeSolid.PAINT_BRUSH, Color.BLACK);
+        shapeOutline.setIcon(shapeOutline_icon);
+        shapeFill.setIcon(shapeFill_icon);
     }
 
 }

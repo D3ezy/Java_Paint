@@ -7,7 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
@@ -15,6 +18,7 @@ import java.awt.event.MouseEvent;;
 
 public class InfoBarView extends JPanel implements MouseListener {
 
+    private static final long serialVersionUID = 1L;
     int canvasX, canvasY, currX, currY, selectionX, selectionY;
     ImageIcon currPosIcon, canvasSizeIcon, selectionAreaIcon;
     JLabel pointPos, canvasSize, selectionSize, zoomAmt;
@@ -25,6 +29,7 @@ public class InfoBarView extends JPanel implements MouseListener {
         super();
         this.addMouseListener(this);
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        this.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(EtchedBorder.RAISED), new EmptyBorder(5,5,5,5)));
         this.initComponents();
     }
 

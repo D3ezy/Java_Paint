@@ -2,13 +2,17 @@ package cs338.gui.ribbon;
 
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import org.kordamp.ikonli.swing.FontIcon;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class RibbonClipboardView extends JPanel {
 
+    private static final long serialVersionUID = 1L;
     JButton paste, cut, copy;
     JPanel inner_clipboard;
 
@@ -16,6 +20,7 @@ public class RibbonClipboardView extends JPanel {
         super();
         this.setLayout(new BorderLayout());
         initComponents();
+        prepareIcons();
     }
 
     public void initComponents() {
@@ -39,6 +44,15 @@ public class RibbonClipboardView extends JPanel {
         this.add(paste, BorderLayout.CENTER);
         this.add(inner_clipboard, BorderLayout.EAST);
         this.add(clipboardLabel, BorderLayout.SOUTH);
+    }
+
+    private void prepareIcons() {
+        FontIcon paste_icon = FontIcon.of(FontAwesomeSolid.PASTE, Color.BLACK);
+        FontIcon cut_icon = FontIcon.of(FontAwesomeSolid.CUT, Color.BLACK);
+        FontIcon copy_icon = FontIcon.of(FontAwesomeSolid.COPY, Color.BLACK);
+        paste.setIcon(paste_icon);
+        cut.setIcon(cut_icon);
+        copy.setIcon(copy_icon);
     }
 
 }

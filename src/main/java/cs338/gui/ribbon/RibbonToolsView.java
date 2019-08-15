@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import org.kordamp.ikonli.fontawesome5.FontAwesomeRegular;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
@@ -36,10 +35,10 @@ public class RibbonToolsView extends JPanel {
 
         // buttons
         pencil = new JButton();
-        eraser = new JButton("E");
-        font = new JButton("F");
-        magnify = new JButton("M");
-        dropper = new JButton("D");
+        eraser = new JButton();
+        font = new JButton();
+        magnify = new JButton();
+        dropper = new JButton();
         paintcan = new JButton("C");
 
         // add components
@@ -50,13 +49,23 @@ public class RibbonToolsView extends JPanel {
         ribbon_inner_tools.add(dropper);
         ribbon_inner_tools.add(paintcan);
 
-        this.add(ribbon_inner_tools, BorderLayout.NORTH);
+        this.add(ribbon_inner_tools, BorderLayout.CENTER);
         this.add(toolsLabel, BorderLayout.SOUTH);
     }
 
     private void prepareIcons() {
         FontIcon pencil_icon = FontIcon.of(FontAwesomeSolid.PENCIL_ALT, Color.BLACK);
+        FontIcon eraser_icon = FontIcon.of(FontAwesomeSolid.ERASER, Color.BLACK);
+        FontIcon text_icon = FontIcon.of(FontAwesomeSolid.FONT, Color.BLACK);
+        FontIcon magnify_icon = FontIcon.of(FontAwesomeSolid.SEARCH_PLUS, Color.BLACK);
+        FontIcon dropper_icon = FontIcon.of(FontAwesomeSolid.EYE_DROPPER, Color.BLACK);
+        // FontIcon paintcan_icon = FontIcon.of(FontAwesomeSolid.FILL_DRIP, Color.BLACK);
         pencil.setIcon(pencil_icon);
+        eraser.setIcon(eraser_icon);
+        font.setIcon(text_icon);
+        magnify.setIcon(magnify_icon);
+        dropper.setIcon(dropper_icon);
+
     }
 
 }

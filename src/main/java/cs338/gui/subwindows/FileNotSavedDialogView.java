@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 
 public class FileNotSavedDialogView extends JOptionPane {
 
+    private static final long serialVersionUID = 1L;
     final String saveDialog = "This drawing has not been saved, would you like to save it?";
     Object[] options = { "Save", "Don't Save", "Cancel" };
 

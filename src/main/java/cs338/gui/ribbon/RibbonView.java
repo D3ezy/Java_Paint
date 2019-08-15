@@ -9,6 +9,8 @@ import java.awt.Dimension;
 
 public class RibbonView extends JPanel {
     
+    private static final long serialVersionUID = 1L;
+
     public RibbonView() {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -20,16 +22,14 @@ public class RibbonView extends JPanel {
         RibbonClipboardView clipboard = new RibbonClipboardView();
         RibbonImageView image = new RibbonImageView();
         RibbonToolsView tools = new RibbonToolsView();
-        RibbonBrushesView brushes = new RibbonBrushesView();
         RibbonShapesView shapes = new RibbonShapesView();
-        RibbonSizeView size = new RibbonSizeView();
+        RibbonBrushView size = new RibbonBrushView();
         RibbonColorChooserView color_chooser = new RibbonColorChooserView();
 
         // Separators
         JSeparator rib_sep1 = new JSeparator(SwingConstants.VERTICAL);
         JSeparator rib_sep2 = new JSeparator(SwingConstants.VERTICAL);
         JSeparator rib_sep3 = new JSeparator(SwingConstants.VERTICAL);
-        JSeparator rib_sep4 = new JSeparator(SwingConstants.VERTICAL);
         JSeparator rib_sep5 = new JSeparator(SwingConstants.VERTICAL);
         JSeparator rib_sep6 = new JSeparator(SwingConstants.VERTICAL);
         JSeparator rib_sep7 = new JSeparator(SwingConstants.VERTICAL);
@@ -47,10 +47,6 @@ public class RibbonView extends JPanel {
         this.add(tools);                                        // Tools
         this.add(Box.createRigidArea(new Dimension(5,0)));
         this.add(rib_sep3);                                     // Separator
-        this.add(Box.createRigidArea(new Dimension(5,0)));
-        this.add(brushes);                                      // Brush Selector
-        this.add(Box.createRigidArea(new Dimension(5,0)));
-        this.add(rib_sep4);                                     // Separator
         this.add(Box.createRigidArea(new Dimension(5,0)));
         this.add(shapes);                                       // Shapes Selector
         this.add(Box.createRigidArea(new Dimension(5,0)));
