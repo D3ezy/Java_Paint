@@ -4,19 +4,20 @@ import javax.swing.JMenuBar;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
-
+import cs338.gui.canvas.PaintCanvasView;
 import cs338.gui.subwindows.AboutWindowView;
 import cs338.gui.subwindows.PropertiesWindowView;
 
-public class MenuBarView extends JMenuBar {
+public class MenuBarView extends JMenuBar implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private JMenu filemenu, viewmenu;
@@ -44,30 +45,12 @@ public class MenuBarView extends JMenuBar {
 
         separator1 = new JSeparator(SwingConstants.HORIZONTAL);
 
-        properties.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PropertiesWindowView pwv = new PropertiesWindowView();
-                pwv.setVisible(true);
-			}
-            
-        });
-
-        about.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                AboutWindowView awv = new AboutWindowView();
-                awv.setVisible(true);
-			}
-            
-        });
-
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-			}
-        });
+        newFile.addActionListener(this);
+        open.addActionListener(this);
+        save.addActionListener(this);
+        properties.addActionListener(this);
+        about.addActionListener(this);
+        exit.addActionListener(this);
 
         filemenu.add(newFile);
         filemenu.add(open);
@@ -103,5 +86,46 @@ public class MenuBarView extends JMenuBar {
         properties.setIcon(properties_icon);
         about.setIcon(about_icon);
         exit.setIcon(exit_icon);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == about) {
+            AboutWindowView awv = new AboutWindowView();
+            awv.setVisible(true);
+        } else if (e.getSource() == exit) {
+            System.exit(0);
+        } else if (e.getSource() == properties) {
+            PropertiesWindowView pwv = new PropertiesWindowView();
+            pwv.setVisible(true);
+        } else if (e.getSource() == save) {
+            String filename;
+            JFileChooser fc = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPEG Images", "jpeg", "jpg");
+            fc.setFileFilter(filter);
+            fc.setCurrentDirectory(new File("./Documents"));
+            int retrival = fc.showSaveDialog(null);
+            if (retrival == JFileChooser.APPROVE_OPTION) {
+                filename = fc.getSelectedFile().toString();
+                MainFrame.canvas.saveImage(filename);
+            }
+        } else if (e.getSource() == open) {
+            JFileChooser fc = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPEG Images", "jpeg", "jpg");
+            fc.setFileFilter(filter);
+            fc.setCurrentDirectory(new File("./Documents"));
+            int returnVal = fc.showOpenDialog(null);
+            if(returnVal == JFileChooser.APPROVE_OPTION) {
+               System.out.println("You chose to open this file: " +
+                    fc.getSelectedFile().getName());
+            }
+            String name = fc.getSelectedFile().getName();
+            MainFrame.canvas.loadImage(name);
+        } else if (e.getSource() == newFile) {
+            MainFrame.canvas.clear();
+        } else {
+            return;
+        }
+        return;
     }
 }

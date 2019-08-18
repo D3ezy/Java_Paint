@@ -1,5 +1,6 @@
 package cs338.gui;
 
+import cs338.gui.canvas.PaintCanvasView;
 import cs338.gui.ribbon.RibbonView;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -11,7 +12,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
-
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -21,7 +21,9 @@ public class MainFrame extends JFrame {
     private static final long serialVersionUID = 1L;
     JMenuBar menubar;
     JMenu filemenu, viewmenu;
-    JMenuItem newFile, zoomIn, zoomOut; 
+    JMenuItem newFile, zoomIn, zoomOut;
+    public static PaintCanvasView canvas;
+    public static InfoBarView info_bar;
     
     public MainFrame() {
         initComponents();
@@ -48,13 +50,13 @@ public class MainFrame extends JFrame {
         ribbonContainer.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(EtchedBorder.RAISED), new EmptyBorder(5,5,5,5)));
 
         // ---- Canvas ---------------------- //
-        PaintCanvasView canvas = new PaintCanvasView(ribbon.getPallette());
+        canvas = new PaintCanvasView();
         JPanel canvasContainer = new JPanel(new GridBagLayout());
         canvasContainer.setBackground(Color.GRAY);
         canvasContainer.add(canvas);
 
         // ---- Bottom Info Bar ------------- //
-        InfoBarView info_bar = new InfoBarView();
+        info_bar = new InfoBarView();
 
         // ---- Add Panels------------------- //
         this.setJMenuBar(menubar);

@@ -12,12 +12,12 @@ import java.awt.Dimension;
 public class RibbonView extends JPanel {
     
     private static final long serialVersionUID = 1L;
-    RibbonClipboardView clipboard;
-    RibbonImageView image;
-    RibbonToolsView tools;
-    RibbonShapesView shapes;
-    RibbonBrushView size;
-    RibbonColorChooserView color_chooser;
+    private RibbonClipboardView clipboard;
+    private RibbonImageView image;
+    private RibbonToolsView tools;
+    private RibbonShapesView shapes;
+    private RibbonBrushView size;
+    private static RibbonColorChooserView color_chooser;
 
     public RibbonView() {
         super();
@@ -70,8 +70,8 @@ public class RibbonView extends JPanel {
         return;
     }
 
-    public JColorChooser getPallette() {
-        return this.color_chooser.getPallette();
+    public static  JColorChooser getPallette() {
+        return color_chooser.getPallette();
     }
 
 }
