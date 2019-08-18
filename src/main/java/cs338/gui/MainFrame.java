@@ -48,7 +48,7 @@ public class MainFrame extends JFrame {
         ribbonContainer.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(EtchedBorder.RAISED), new EmptyBorder(5,5,5,5)));
 
         // ---- Canvas ---------------------- //
-        PaintCanvasView canvas = new PaintCanvasView();
+        PaintCanvasView canvas = new PaintCanvasView(ribbon.getPallette());
         JPanel canvasContainer = new JPanel(new GridBagLayout());
         canvasContainer.setBackground(Color.GRAY);
         canvasContainer.add(canvas);

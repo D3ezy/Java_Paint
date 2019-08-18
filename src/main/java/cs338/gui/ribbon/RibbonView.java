@@ -5,11 +5,19 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JColorChooser;
+
 import java.awt.Dimension;
 
 public class RibbonView extends JPanel {
     
     private static final long serialVersionUID = 1L;
+    RibbonClipboardView clipboard;
+    RibbonImageView image;
+    RibbonToolsView tools;
+    RibbonShapesView shapes;
+    RibbonBrushView size;
+    RibbonColorChooserView color_chooser;
 
     public RibbonView() {
         super();
@@ -19,12 +27,12 @@ public class RibbonView extends JPanel {
 
     public void initComponents() {
         // Component Instantiation
-        RibbonClipboardView clipboard = new RibbonClipboardView();
-        RibbonImageView image = new RibbonImageView();
-        RibbonToolsView tools = new RibbonToolsView();
-        RibbonShapesView shapes = new RibbonShapesView();
-        RibbonBrushView size = new RibbonBrushView();
-        RibbonColorChooserView color_chooser = new RibbonColorChooserView();
+        clipboard = new RibbonClipboardView();
+        image = new RibbonImageView();
+        tools = new RibbonToolsView();
+        shapes = new RibbonShapesView();
+        size = new RibbonBrushView();
+        color_chooser = new RibbonColorChooserView();
 
         // Separators
         JSeparator rib_sep1 = new JSeparator(SwingConstants.VERTICAL);
@@ -60,6 +68,10 @@ public class RibbonView extends JPanel {
         this.add(Box.createRigidArea(new Dimension(5,0)));
         this.add(rib_sep7);                                     // Separator  
         return;
+    }
+
+    public JColorChooser getPallette() {
+        return this.color_chooser.getPallette();
     }
 
 }

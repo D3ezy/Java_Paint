@@ -1,8 +1,9 @@
 package cs338.gui;
 
 import javax.swing.JMenuBar;
-
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -11,6 +12,9 @@ import javax.swing.SwingConstants;
 
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
+
+import cs338.gui.subwindows.AboutWindowView;
+import cs338.gui.subwindows.PropertiesWindowView;
 
 public class MenuBarView extends JMenuBar {
 
@@ -39,6 +43,31 @@ public class MenuBarView extends JMenuBar {
         exit = new JMenuItem("Exit");
 
         separator1 = new JSeparator(SwingConstants.HORIZONTAL);
+
+        properties.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PropertiesWindowView pwv = new PropertiesWindowView();
+                pwv.setVisible(true);
+			}
+            
+        });
+
+        about.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AboutWindowView awv = new AboutWindowView();
+                awv.setVisible(true);
+			}
+            
+        });
+
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+			}
+        });
 
         filemenu.add(newFile);
         filemenu.add(open);

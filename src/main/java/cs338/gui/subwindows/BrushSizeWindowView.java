@@ -1,15 +1,19 @@
 package cs338.gui.subwindows;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 public class BrushSizeWindowView extends JFrame {
 
@@ -21,9 +25,12 @@ public class BrushSizeWindowView extends JFrame {
 
     public BrushSizeWindowView() {
         super();
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout(10,10));
         initComponents();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setTitle("Brush Settings");
+        this.setPreferredSize(new Dimension(400,330));
+        this.setMinimumSize(new Dimension(400,330));
         this.pack();
         this.setLocationRelativeTo(null);
     }
@@ -36,6 +43,8 @@ public class BrushSizeWindowView extends JFrame {
         brushTypePanel = new JPanel();
         brushTypePanel.setLayout(new BoxLayout(brushTypePanel, BoxLayout.Y_AXIS));
         optionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        brushSizePanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(5,5,0,5), new TitledBorder("Brush Size")));
+        brushTypePanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,5,5,5), new TitledBorder("Brush Type")));
 
         // initialize buttons
 

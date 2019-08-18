@@ -79,4 +79,8 @@ public class RibbonColorChooserView extends JPanel {
         openChooser.setIcon(openChooser_icon);
     }
 
+    public JColorChooser getPallette() {
+        return this.pallette;
+    }
+
 }

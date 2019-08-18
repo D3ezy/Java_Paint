@@ -35,6 +35,7 @@ public class RibbonToolsView extends JPanel {
 
         // buttons
         pencil = new JButton();
+        pencil.setPressedIcon(null);
         eraser = new JButton();
         font = new JButton();
         magnify = new JButton();

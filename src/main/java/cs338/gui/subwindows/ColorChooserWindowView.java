@@ -22,6 +22,7 @@ public class ColorChooserWindowView extends JFrame {
         this.oldColor = currColor;
         this.setLayout(new BorderLayout());
         initComponents();
+        this.setName("Select Color (Advanced)");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.pack();
         this.setLocationRelativeTo(null);
