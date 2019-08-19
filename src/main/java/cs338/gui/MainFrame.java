@@ -14,6 +14,8 @@ import java.awt.GridBagLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
@@ -25,6 +27,7 @@ public class MainFrame extends JFrame implements WindowListener {
     public static PaintCanvasView canvas;
     public static InfoBarView info_bar;
     public static MenuBarView menubar;
+    public static RibbonView ribbon;
     
     public MainFrame() {
         initComponents();
@@ -46,16 +49,19 @@ public class MainFrame extends JFrame implements WindowListener {
         menubar = new MenuBarView();
 
         // ---- Ribbon ---------------------- //
-        RibbonView ribbon = new RibbonView();
+        ribbon = new RibbonView();
         JPanel ribbonContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
         ribbonContainer.add(ribbon);
         ribbonContainer.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(EtchedBorder.RAISED), new EmptyBorder(5,5,5,5)));
 
         // ---- Canvas ---------------------- //
         canvas = new PaintCanvasView();
+        JPanel parentContainer = new JPanel();
         JPanel canvasContainer = new JPanel(new GridBagLayout());
-        canvasContainer.setBackground(Color.GRAY);
+        JScrollPane sp = new JScrollPane(parentContainer, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         canvasContainer.add(canvas);
+        parentContainer.add(canvasContainer);
+        parentContainer.setBackground(Color.GRAY);
 
         // ---- Bottom Info Bar ------------- //
         info_bar = new InfoBarView();
@@ -63,7 +69,7 @@ public class MainFrame extends JFrame implements WindowListener {
         // ---- Add Panels------------------- //
         this.setJMenuBar(menubar);
         this.add(ribbonContainer, BorderLayout.NORTH);
-        this.add(canvasContainer, BorderLayout.CENTER);
+        this.add(sp, BorderLayout.CENTER);
         this.add(info_bar, BorderLayout.SOUTH);
     }
 
@@ -83,5 +89,6 @@ public class MainFrame extends JFrame implements WindowListener {
     @Override
     public void windowActivated(WindowEvent e) {}
     @Override
-    public void windowDeactivated(WindowEvent e) {}
+    public void windowDeactivated(WindowEvent e) {
+    }
 }

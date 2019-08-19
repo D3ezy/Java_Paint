@@ -76,9 +76,7 @@ public class ResizeWindowView extends JFrame implements ActionListener {
             int horizontal = Integer.parseInt(this.horField.getText());
             int vertical = Integer.parseInt(this.vertField.getText());
             Dimension newDim = new Dimension(horizontal, vertical);
-            MainFrame.canvas.setPreferredSize(newDim);
-            MainFrame.canvas.revalidate();
-            MainFrame.canvas.repaint();
+            MainFrame.canvas.updateCanvasSize(newDim);
             this.dispose();
         } else if (e.getSource() == cancelButton) {
             this.dispose();

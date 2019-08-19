@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 public class PropertiesWindowView extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    JPanel fileAttributesPanel;
+    JPanel fileAttributesPanel, buttonsPanel;
     JButton okButton, cancelButton, defaultButton;
     JTextField widthTextField, heightTextField;
     JLabel widthLabel, heightLabel, lastSavedLabel, sizeOnDiskLabel;

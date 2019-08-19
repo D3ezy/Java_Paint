@@ -5,9 +5,12 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import cs338.gui.canvas.Tool;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
@@ -18,7 +21,9 @@ public class RibbonToolsView extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     JPanel ribbon_inner_tools;
-    JButton pencil, magnify, eraser, font, dropper, paintcan, undo, redo;
+    JToggleButton pencil, magnify, eraser, font, dropper, paintcan;
+    JButton undo, redo;
+    ButtonGroup bg; 
 
     RibbonToolsView() {
         super();
@@ -37,17 +42,21 @@ public class RibbonToolsView extends JPanel implements ActionListener {
         // labels
         JLabel toolsLabel = new JLabel("Tools", SwingConstants.CENTER);
 
+        // buttongroup
+        this.bg = new ButtonGroup();
+
         // buttons
-        pencil = new JButton();
-        eraser = new JButton();
-        font = new JButton();
-        magnify = new JButton();
-        dropper = new JButton();
-        paintcan = new JButton("C");
+        pencil = new JToggleButton();
+        eraser = new JToggleButton();
+        font = new JToggleButton();
+        magnify = new JToggleButton();
+        dropper = new JToggleButton();
+        paintcan = new JToggleButton("C");
         undo = new JButton();
         undo.setEnabled(false);
         redo = new JButton();
         redo.setEnabled(false);
+        this.pencil.setSelected(true);
 
         pencil.addActionListener(this);
         eraser.addActionListener(this);
@@ -57,6 +66,16 @@ public class RibbonToolsView extends JPanel implements ActionListener {
         paintcan.addActionListener(this);
         undo.addActionListener(this);
         redo.addActionListener(this);
+
+        // add to button group
+        bg.add(pencil);
+        bg.add(magnify);
+        bg.add(eraser);
+        bg.add(font);
+        bg.add(dropper);
+        bg.add(paintcan);
+        bg.add(undo);
+        bg.add(redo);
 
         // add components
         ribbon_inner_tools.add(pencil);
@@ -92,22 +111,30 @@ public class RibbonToolsView extends JPanel implements ActionListener {
 
     }
 
+    public void enableRedo() {
+        this.redo.setEnabled(true);
+        return;
+    }
+
+    public void enableUndo() {
+        this.undo.setEnabled(true);
+        return;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == pencil ) {
-            this.pencil.setEnabled(true);
-            MainFrame.canvas.setColor(Color.BLACK);
+            MainFrame.canvas.setCurrentTool(Tool.PENCIL);
         } else if(e.getSource() == eraser) {
-            this.eraser.setEnabled(true);
-            MainFrame.canvas.setColor(Color.WHITE);
+            MainFrame.canvas.setCurrentTool(Tool.ERASER);
         } else if(e.getSource() == font) {
-            
+            MainFrame.canvas.setCurrentTool(Tool.FONT);
         } else if(e.getSource() == magnify) {
             
         } else if(e.getSource() == dropper) {
             
         } else if(e.getSource() == paintcan) {
-            
+            MainFrame.canvas.setCurrentTool(Tool.PAINTCAN);
         } else if (e.getSource() == undo) {
             
         } else if (e.getSource() == redo) {

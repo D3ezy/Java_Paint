@@ -22,7 +22,13 @@ public class MenuBarView extends JMenuBar implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private JMenu filemenu, viewmenu, editmenu;
-    private JMenuItem newFile, zoomIn, zoomOut, zoomReset, open, save, saveAs, properties, about, exit, undo, redo;
+    private JMenuItem newFile, zoomIn, zoomOut, zoomReset, open, save;
+	public JMenuItem saveAs;
+	private JMenuItem properties;
+	private JMenuItem about;
+	private JMenuItem exit;
+	private JMenuItem undo;
+	private JMenuItem redo;
     private JSeparator separator1;
 
     MenuBarView() {
@@ -171,10 +177,6 @@ public class MenuBarView extends JMenuBar implements ActionListener {
             redo.setEnabled(true);
         } else if (e.getSource() == redo) {
             MainFrame.canvas.redo();
-            if(MainFrame.canvas.getRedoStackSize() == 0) {
-                this.redo.setEnabled(false);
-                this.undo.setEnabled(false);
-            }
         } else if (e.getSource() == newFile) {
             MainFrame.canvas.clear();
         } else {

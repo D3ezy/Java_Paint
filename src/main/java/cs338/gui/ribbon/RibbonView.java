@@ -13,7 +13,7 @@ public class RibbonView extends JPanel {
     
     private static final long serialVersionUID = 1L;
     private RibbonImageView image;
-    private RibbonToolsView tools;
+    public static RibbonToolsView tools;
     private RibbonShapesView shapes;
     private RibbonBrushView size;
     private static RibbonColorChooserView color_chooser;

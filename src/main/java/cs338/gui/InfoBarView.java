@@ -8,16 +8,20 @@ import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
-public class InfoBarView extends JPanel {
+public class InfoBarView extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     JLabel pointPos, canvasSize, zoomAmt;
@@ -42,7 +46,11 @@ public class InfoBarView extends JPanel {
     public void initComponents() {
         pointPos = new JLabel("Shows current pointer position");
         canvasSize = new JLabel("Shows canvas size");
-        zoomSlider = new JSlider(SwingConstants.HORIZONTAL, 12, 800, 100);
+        zoomSlider = new JSlider(SwingConstants.HORIZONTAL);
+        zoomSlider.setMinorTickSpacing(5);
+        zoomSlider.setMajorTickSpacing(25);
+        zoomSlider.setPaintTicks(true);
+        zoomSlider.setSnapToTicks(true);
         sep1 = new JSeparator(SwingConstants.VERTICAL);
         sep2 = new JSeparator(SwingConstants.VERTICAL);
         sep3 = new JSeparator(SwingConstants.VERTICAL);
@@ -56,12 +64,23 @@ public class InfoBarView extends JPanel {
         canvSize = new JPanel(new BorderLayout());
         sliderPane = new JPanel(new BorderLayout());
 
+        this.pointerPosition.setPreferredSize(new Dimension(200,20));
+
         // add components to panels
         pointerPosition.add(this.pointPos, BorderLayout.WEST);
         canvSize.add(this.canvasSize, BorderLayout.WEST);
         sliderPane.add(this.zoomSlider, BorderLayout.CENTER);
         sliderPane.add(this.zoomPlus, BorderLayout.EAST);
         sliderPane.add(this.zoomMinus, BorderLayout.WEST);
+
+        zoomPlus.addActionListener(this);
+        zoomMinus.addActionListener(this);
+        zoomSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                System.out.println("Slider: " + zoomSlider.getValue());
+			}
+        });
 
         // add panels to main
         this.add(pointerPosition);
@@ -101,4 +120,13 @@ public class InfoBarView extends JPanel {
         this.canvasSize.setIcon(canvasSizeIcon);
         this.pointPos.setIcon(ptrLocationIcon);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == zoomPlus) {
+            this.zoomSlider.setValue(this.zoomSlider.getValue()+5);
+        } else if (e.getSource() == zoomMinus) {
+            this.zoomSlider.setValue(this.zoomSlider.getValue()-5);
+        }
+	}
 }
