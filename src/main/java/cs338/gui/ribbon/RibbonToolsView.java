@@ -21,7 +21,7 @@ public class RibbonToolsView extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     JPanel ribbon_inner_tools;
-    JToggleButton pencil, magnify, eraser, font, dropper, paintcan;
+    JToggleButton pencil, magnify, eraser, font, shape, paintcan;
     JButton undo, redo;
     ButtonGroup bg; 
 
@@ -50,8 +50,11 @@ public class RibbonToolsView extends JPanel implements ActionListener {
         eraser = new JToggleButton();
         font = new JToggleButton();
         magnify = new JToggleButton();
-        dropper = new JToggleButton();
+        this.magnify.setEnabled(false);
+        this.shape = new JToggleButton();
+        this.shape.setEnabled(true);
         paintcan = new JToggleButton("C");
+        this.paintcan.setEnabled(false);
         undo = new JButton();
         undo.setEnabled(false);
         redo = new JButton();
@@ -62,7 +65,7 @@ public class RibbonToolsView extends JPanel implements ActionListener {
         eraser.addActionListener(this);
         font.addActionListener(this);
         magnify.addActionListener(this);
-        dropper.addActionListener(this);
+        shape.addActionListener(this);
         paintcan.addActionListener(this);
         undo.addActionListener(this);
         redo.addActionListener(this);
@@ -72,7 +75,7 @@ public class RibbonToolsView extends JPanel implements ActionListener {
         bg.add(magnify);
         bg.add(eraser);
         bg.add(font);
-        bg.add(dropper);
+        bg.add(shape);
         bg.add(paintcan);
         bg.add(undo);
         bg.add(redo);
@@ -82,7 +85,7 @@ public class RibbonToolsView extends JPanel implements ActionListener {
         ribbon_inner_tools.add(magnify);
         ribbon_inner_tools.add(eraser);
         ribbon_inner_tools.add(font);
-        ribbon_inner_tools.add(dropper);
+        ribbon_inner_tools.add(shape);
         ribbon_inner_tools.add(paintcan);
         ribbon_inner_tools.add(undo);
         ribbon_inner_tools.add(redo);
@@ -92,11 +95,11 @@ public class RibbonToolsView extends JPanel implements ActionListener {
     }
 
     private void prepareIcons() {
-        FontIcon pencil_icon = FontIcon.of(FontAwesomeSolid.PENCIL_ALT, Color.BLACK);
+        FontIcon pencil_icon = FontIcon.of(FontAwesomeSolid.PAINT_BRUSH, Color.BLACK);
         FontIcon eraser_icon = FontIcon.of(FontAwesomeSolid.ERASER, Color.BLACK);
         FontIcon text_icon = FontIcon.of(FontAwesomeSolid.FONT, Color.BLACK);
         FontIcon magnify_icon = FontIcon.of(FontAwesomeSolid.SEARCH_PLUS, Color.BLACK);
-        FontIcon dropper_icon = FontIcon.of(FontAwesomeSolid.EYE_DROPPER, Color.BLACK);
+        FontIcon shape_icon = FontIcon.of(FontAwesomeSolid.SQUARE, Color.BLACK);
         // FontIcon paintcan_icon = FontIcon.of(FontAwesomeSolid.FILL_DRIP, Color.BLACK);
         FontIcon undo_icon = FontIcon.of(FontAwesomeSolid.UNDO, Color.BLACK);
         FontIcon redo_icon = FontIcon.of(FontAwesomeSolid.REDO, Color.BLACK);
@@ -105,7 +108,7 @@ public class RibbonToolsView extends JPanel implements ActionListener {
         eraser.setIcon(eraser_icon);
         font.setIcon(text_icon);
         magnify.setIcon(magnify_icon);
-        dropper.setIcon(dropper_icon);
+        shape.setIcon(shape_icon);
         undo.setIcon(undo_icon);
         redo.setIcon(redo_icon);
 
@@ -130,16 +133,16 @@ public class RibbonToolsView extends JPanel implements ActionListener {
         } else if(e.getSource() == font) {
             MainFrame.canvas.setCurrentTool(Tool.FONT);
         } else if(e.getSource() == magnify) {
-            
-        } else if(e.getSource() == dropper) {
-            
+            MainFrame.canvas.setCurrentTool(Tool.MAGNIFY);
+        } else if(e.getSource() == shape) {
+            MainFrame.canvas.setCurrentTool(Tool.RECTANGLE);
         } else if(e.getSource() == paintcan) {
             MainFrame.canvas.setCurrentTool(Tool.PAINTCAN);
         } else if (e.getSource() == undo) {
-            
+            MainFrame.canvas.undo();
         } else if (e.getSource() == redo) {
-
-        }
+            MainFrame.canvas.redo();
+        }   
 	}
 
 }

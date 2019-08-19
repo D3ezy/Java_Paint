@@ -16,8 +16,10 @@ public class Line extends Shape {
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(this.color);
-        g.drawLine(this.point.x, this.point.y, this.x2, this.y2);
+		if (point != null) {
+			g.setColor(this.color);
+			g.drawLine(this.point.x, this.point.y, this.x2, this.y2);
+		}
 	}
     
 }

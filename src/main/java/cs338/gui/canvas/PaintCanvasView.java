@@ -7,6 +7,8 @@ import cs338.gui.MainFrame;
 import cs338.gui.ribbon.RibbonView;
 import cs338.gui.shapes.CurvedLine;
 import cs338.gui.shapes.ImageShape;
+import cs338.gui.shapes.Line;
+import cs338.gui.shapes.Rectangle;
 import cs338.gui.shapes.Shape;
 import cs338.gui.shapes.TextShape;
 import cs338.gui.subwindows.FileNotSavedDialogView;
@@ -41,6 +43,8 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
     private JColorChooser my_colors;
     private boolean hasBeenSaved, hasBeenDrawn, hasLoaded;
     private Tool currentTool;
+    private Point start = null;
+    private Point end = null;
 
     // default constructor
     public PaintCanvasView() {
@@ -198,6 +202,29 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
             s = new CurvedLine(Color.WHITE, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
         } else if (currentTool == Tool.FONT) {
             return;
+        } else if (currentTool == Tool.LINE) {
+            this.end = e.getPoint();
+            s = new Line(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.end);
+            this.start = this.end;
+        } else if (currentTool == Tool.RECTANGLE) {
+            s = new Rectangle(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),e.getPoint());
+        }
+        shapes.add(s);
+        repaint();
+    }
+
+    @Override
+	public void mousePressed(MouseEvent e) {
+        Shape s = null;
+        if (currentTool == Tool.LINE) {
+            start = e.getPoint();
+            s = new Line(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.start);
+            return;
+        } else if (currentTool == Tool.RECTANGLE) {
+            start = e.getPoint();
+            s = new Rectangle(my_colors.getColor(), start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), new Point(e.getPoint().x, e.getPoint().y));
+        } else {
+            return;
         }
         shapes.add(s);
         repaint();
@@ -215,6 +242,8 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
             fcv.setVisible(true);
             System.out.println(fcv.getFontType().toString());
             s = new TextShape(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(),fcv.getText(), fcv.getFontType());
+        } else {
+            return;
         }
         shapes.add(s);
         repaint();
@@ -250,12 +279,11 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         this.hasBeenDrawn = true;
         MainFrame.menubar.enableUndo();
         tools.enableUndo();
+        repaint();
         return;
     }
 
     // unused
-	@Override
-	public void mousePressed(MouseEvent e) {}
     @Override
     public void componentMoved(ComponentEvent e) {}
     @Override

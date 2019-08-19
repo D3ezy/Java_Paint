@@ -24,7 +24,7 @@ public class RibbonImageView extends JPanel implements ActionListener{
 
     private static final long serialVersionUID = 1L;
     JPanel inner_image;
-    JButton select, save, rotate, resize, newFile, openFile;
+    JButton clear, save, rotate, resize, newFile, openFile;
 
     RibbonImageView() {
         super();
@@ -42,14 +42,15 @@ public class RibbonImageView extends JPanel implements ActionListener{
         JLabel imageLabel = new JLabel("Image", SwingConstants.CENTER);
 
         // init buttons
-        select = new JButton("Select");
+        clear = new JButton("Clear");
+        this.clear.setEnabled(true);
         save = new JButton("Save");
         resize = new JButton("Resize");
         rotate = new JButton("Rotate");
         newFile = new JButton("New...");
         openFile = new JButton("Open");
 
-        select.addActionListener(this);
+        clear.addActionListener(this);
         save.addActionListener(this);
         resize.addActionListener(this);
         rotate.addActionListener(this);
@@ -63,20 +64,20 @@ public class RibbonImageView extends JPanel implements ActionListener{
         inner_image.add(resize);
         inner_image.add(rotate);
 
-        this.add(select, BorderLayout.CENTER);
+        this.add(clear, BorderLayout.CENTER);
         this.add(inner_image, BorderLayout.EAST);
         this.add(imageLabel, BorderLayout.SOUTH);
         
     }
 
     private void prepareIcons() {
-        FontIcon select_icon = FontIcon.of(FontAwesomeSolid.EXPAND, Color.BLACK);
+        FontIcon clear_icon = FontIcon.of(FontAwesomeSolid.IMAGE, Color.BLACK);
         FontIcon save_icon = FontIcon.of(FontAwesomeSolid.SAVE, Color.BLACK);
         FontIcon resize_icon = FontIcon.of(FontAwesomeSolid.CLONE, Color.BLACK);
         FontIcon rotate_icon = FontIcon.of(FontAwesomeSolid.RETWEET, Color.BLACK);
         FontIcon new_icon = FontIcon.of(FontAwesomeSolid.FILE, Color.BLACK);
         FontIcon open_icon = FontIcon.of(FontAwesomeSolid.FILE_IMAGE, Color.BLACK);
-        select.setIcon(select_icon);
+        clear.setIcon(clear_icon);
         save.setIcon(save_icon);
         resize.setIcon(resize_icon);
         rotate.setIcon(rotate_icon);
@@ -118,8 +119,8 @@ public class RibbonImageView extends JPanel implements ActionListener{
             rwv.setVisible(true);
         } else if (e.getSource() == rotate) {
             MainFrame.canvas.rotate();
-        } else if (e.getSource() == select) {
-
+        } else if (e.getSource() == clear) {
+            MainFrame.canvas.clear();
         }
 	}
 

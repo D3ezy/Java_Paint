@@ -65,6 +65,7 @@ public class InfoBarView extends JPanel implements ActionListener {
         sliderPane = new JPanel(new BorderLayout());
 
         this.pointerPosition.setPreferredSize(new Dimension(200,20));
+        this.zoomSlider.setPreferredSize(new Dimension(50,10));
 
         // add components to panels
         pointerPosition.add(this.pointPos, BorderLayout.WEST);
