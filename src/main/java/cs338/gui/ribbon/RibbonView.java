@@ -33,7 +33,6 @@ public class RibbonView extends JPanel {
         color_chooser = new RibbonColorChooserView();
 
         // Separators
-        JSeparator rib_sep1 = new JSeparator(SwingConstants.VERTICAL);
         JSeparator rib_sep2 = new JSeparator(SwingConstants.VERTICAL);
         JSeparator rib_sep3 = new JSeparator(SwingConstants.VERTICAL);
         JSeparator rib_sep5 = new JSeparator(SwingConstants.VERTICAL);

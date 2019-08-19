@@ -14,6 +14,5 @@ public class CurvedLine extends Shape {
     public void paint(Graphics g) {
         g.setColor(this.color);
         g.fillOval(this.point.x, this.point.y, this.x, this.y);
-    }
-    
+    }    
 }

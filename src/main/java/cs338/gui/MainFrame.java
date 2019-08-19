@@ -11,11 +11,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements WindowListener {
 
     private static final long serialVersionUID = 1L;
     JMenu filemenu, viewmenu;
@@ -27,9 +29,10 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         initComponents();
         this.setTitle("Java Paint v0.9");
-        this.setPreferredSize(new Dimension(1500,900));
-        this.setMinimumSize(new Dimension(1000,850));
+        this.setPreferredSize(new Dimension(1400,900));
+        this.setMinimumSize(new Dimension(1260,850));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.addWindowListener(this);
         this.pack();
         this.setLocationRelativeTo(null);
     }
@@ -63,4 +66,22 @@ public class MainFrame extends JFrame {
         this.add(canvasContainer, BorderLayout.CENTER);
         this.add(info_bar, BorderLayout.SOUTH);
     }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        canvas.clear();
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {}
+    @Override
+    public void windowClosed(WindowEvent e) {}
+    @Override
+    public void windowIconified(WindowEvent e) {}
+    @Override
+    public void windowDeiconified(WindowEvent e) {}
+    @Override
+    public void windowActivated(WindowEvent e) {}
+    @Override
+    public void windowDeactivated(WindowEvent e) {}
 }

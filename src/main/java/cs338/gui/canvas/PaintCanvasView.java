@@ -36,7 +36,9 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
 
     // attirbutes
     private ArrayList<Shape> shapes;
-    private Stack<Shape> redoStack;
+    private ArrayList<Shape> currLine;
+    private Stack<ArrayList<Shape>> completedLines;
+    private Stack<ArrayList<Shape>> redoStack;
     private Brush currBrush;
     private JColorChooser my_colors;
     private boolean hasBeenSaved, hasBeenDrawn, hasLoaded;
@@ -45,7 +47,9 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
     public PaintCanvasView() {
         super();
         this.shapes = new ArrayList<>();
+        this.currLine = new ArrayList<>();
         this.redoStack = new Stack<>();
+        this.completedLines = new Stack<>();
         this.my_colors = RibbonView.getPallette();
         this.currBrush = new PencilBrush(5);
         this.hasBeenDrawn = false;
@@ -100,6 +104,11 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         this.hasLoaded = true;
     }
 
+    public void rotate() {
+        for(int i = 0; i<this.shapes.size(); i++) {
+        }
+    }
+
     // getters/setters
     public Dimension getPreferredSize() {
         return new Dimension(W,H);
@@ -139,18 +148,29 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
 
     // undo/redo
     public void undo() {
-        int undoSize = this.shapes.size();
-        Shape lastState = this.shapes.get(undoSize-1);
-        this.redoStack.push(lastState);
-        this.shapes.remove(undoSize-1);
-        this.shapes.trimToSize();
+        if(this.completedLines.size() == 0) {
+            System.out.println("Nothing to undo.");
+            return;
+        }
+        // pop last Completed Line off Stack
+        ArrayList<Shape> undoLine = this.completedLines.pop();
+        this.redoStack.add(undoLine);
+        int sizeOfLine = undoLine.size();
+        int sizeOfShapes = this.shapes.size();
+        for (int i =0; i<sizeOfLine; i++) {
+            this.shapes.remove(sizeOfShapes-1-i);
+            this.shapes.trimToSize();
+            sizeOfShapes = this.shapes.size();
+        }     
         MainFrame.menubar.enableRedo();
         this.repaint();
     }
 
     public void redo() {
-        Shape redoShape = this.redoStack.pop();
-        this.shapes.add(redoShape);
+        ArrayList<Shape> redoLine = this.redoStack.pop();
+        for (int i = 0; i < redoLine.size(); i++) {
+            this.shapes.add(redoLine.get(i));
+        }
         this.repaint();
     }
 
@@ -187,13 +207,18 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        shapes.add(new CurvedLine(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY()));
+        Shape s = new CurvedLine(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
+        shapes.add(s);
+        currLine.add(s);
         repaint();
     }
 
     @Override
 	public void mouseClicked(MouseEvent e) {
-        shapes.add(new CurvedLine(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY()));
+        System.out.println(e.getPoint());
+        Shape s = new CurvedLine(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
+        shapes.add(s);
+        currLine.add(s);
         repaint();
     }
     
@@ -224,6 +249,10 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
     @Override
     public void mouseReleased(MouseEvent e) {
         this.hasBeenDrawn = true;
+        Shape s = new CurvedLine(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
+        currLine.add(s);
+        this.completedLines.push(this.currLine);
+        this.currLine.clear();
         return;
     }
 

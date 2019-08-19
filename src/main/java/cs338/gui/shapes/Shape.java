@@ -25,6 +25,10 @@ public abstract class Shape {
         return this.color;
     }
 
+    public void setPoint(Point p) {
+        this.point = p;
+    }
+
     public abstract void paint(Graphics g);
 
 }

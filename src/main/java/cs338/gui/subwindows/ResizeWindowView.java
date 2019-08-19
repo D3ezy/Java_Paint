@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
+import cs338.gui.MainFrame;
+
 public class ResizeWindowView extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -24,7 +26,7 @@ public class ResizeWindowView extends JFrame implements ActionListener {
     JTextField horField, vertField;
     JButton okButton, cancelButton;
 
-    ResizeWindowView() {
+    public ResizeWindowView() {
         super();
         this.setName("Resize Canvas");
         this.setLayout(new BorderLayout());
@@ -71,9 +73,15 @@ public class ResizeWindowView extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
-
+            int horizontal = Integer.parseInt(this.horField.getText());
+            int vertical = Integer.parseInt(this.vertField.getText());
+            Dimension newDim = new Dimension(horizontal, vertical);
+            MainFrame.canvas.setPreferredSize(newDim);
+            MainFrame.canvas.revalidate();
+            MainFrame.canvas.repaint();
+            this.dispose();
         } else if (e.getSource() == cancelButton) {
-
+            this.dispose();
         }
 	}
 

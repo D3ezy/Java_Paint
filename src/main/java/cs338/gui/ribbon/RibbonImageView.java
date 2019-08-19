@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
+
+import cs338.gui.MainFrame;
+import cs338.gui.subwindows.ResizeWindowView;
 
 public class RibbonImageView extends JPanel implements ActionListener{
 
@@ -86,11 +88,12 @@ public class RibbonImageView extends JPanel implements ActionListener{
         } else if (e.getSource() == crop) {
             
         } else if (e.getSource() == resize) {
-            
+            ResizeWindowView rwv = new ResizeWindowView();
+            rwv.setVisible(true);
         } else if (e.getSource() == rotate) {
-            
+            MainFrame.canvas.rotate();
         } else if (e.getSource() == select) {
-            
+
         }
 	}
 
