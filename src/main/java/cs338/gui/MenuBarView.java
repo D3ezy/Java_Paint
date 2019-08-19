@@ -192,4 +192,12 @@ public class MenuBarView extends JMenuBar implements ActionListener {
     public void enableRedo() {
         this.redo.setEnabled(true);
     }
+
+	public void disableUndo() {
+        this.undo.setEnabled(false);
+	}
+
+	public void disableRedo() {
+        this.redo.setEnabled(false);
+	}
 }

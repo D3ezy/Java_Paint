@@ -22,7 +22,7 @@ public class RibbonShapesView extends JPanel implements ActionListener {
     JPanel inner_shapes, comboBoxPanel;
     JButton shapeOutline, shapeFill;
     JComboBox<Tool> shapes;
-    Tool[] items = {Tool.LINE, Tool.RECTANGLE};
+    Tool[] items = {Tool.LINE, Tool.RECTANGLE, Tool.OVAL};
 
     RibbonShapesView() {
         super();
@@ -44,8 +44,11 @@ public class RibbonShapesView extends JPanel implements ActionListener {
 
         // init buttons
         shapes = new JComboBox<Tool>(items);
+        shapes.setToolTipText("Changes the type of shape to draw");
         shapeOutline = new JButton("Outline");
+        shapeOutline.setToolTipText("Changes shape outline color (NOT WORKING)");
         shapeFill = new JButton("Fill   ");
+        shapeFill.setToolTipText("Changes the fill in color of shape (NOT WORKING)");
         shapeFill.setPreferredSize(shapeOutline.getPreferredSize());
 
         shapes.addActionListener(this);

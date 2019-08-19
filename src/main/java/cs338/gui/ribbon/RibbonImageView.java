@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -49,6 +50,12 @@ public class RibbonImageView extends JPanel implements ActionListener{
         rotate = new JButton("Rotate");
         newFile = new JButton("New...");
         openFile = new JButton("Open");
+        save.setToolTipText("Save canvas to file");
+        openFile.setToolTipText("Open canvas from file");
+        newFile.setToolTipText("Create a new blank canvas");
+        resize.setToolTipText("Change size of canvas (NOT WORKING)");
+        rotate.setToolTipText("Rotate canvas (NOT WORKING)");
+        clear.setToolTipText("Clear canvas of all drawings");
 
         clear.addActionListener(this);
         save.addActionListener(this);
@@ -71,7 +78,7 @@ public class RibbonImageView extends JPanel implements ActionListener{
     }
 
     private void prepareIcons() {
-        FontIcon clear_icon = FontIcon.of(FontAwesomeSolid.IMAGE, Color.BLACK);
+        FontIcon clear_icon = FontIcon.of(FontAwesomeSolid.OBJECT_UNGROUP, Color.BLACK);
         FontIcon save_icon = FontIcon.of(FontAwesomeSolid.SAVE, Color.BLACK);
         FontIcon resize_icon = FontIcon.of(FontAwesomeSolid.CLONE, Color.BLACK);
         FontIcon rotate_icon = FontIcon.of(FontAwesomeSolid.RETWEET, Color.BLACK);

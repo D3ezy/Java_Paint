@@ -1,6 +1,15 @@
 Matthew Dey
 CS 338 - Project Stage 3
 Java Paint v0.9
+GitHub: https://github.com/D3ezy/cs338-gui
+
+:: Credit to Dependencies
+
+Java Tutorials were Followed for Learning how to Paint on JPanel:
+https://docs.oracle.com/javase/tutorial/uiswing/painting/
+
+Open Source Icons were used from imported dependency Ikonli:
+http://aalmiray.github.io/ikonli/#_fontawesome
 
 :: TO RUN
 
@@ -43,8 +52,8 @@ What works properly:
 
 What doesn't work correctly yet:
 
-- Resizing the canvas
-- Zooming in on the canvas
+- Resizing the canvas (NOTE: I changed the default size of canvas for submission to show that scroll bars have been implemented once this is working)
+- Zooming in on the canvas (NOTE: I changed the default size of canvas for submission to show that scroll bars have been implemented once this is working)
 - Drawing fixed lines
 - Outline/Fill
 - Rotate

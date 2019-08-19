@@ -56,7 +56,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
         // ---- Canvas ---------------------- //
         canvas = new PaintCanvasView();
-        JPanel parentContainer = new JPanel();
+        JPanel parentContainer = new JPanel(new GridBagLayout());
         JPanel canvasContainer = new JPanel(new GridBagLayout());
         JScrollPane sp = new JScrollPane(parentContainer, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         canvasContainer.add(canvas);

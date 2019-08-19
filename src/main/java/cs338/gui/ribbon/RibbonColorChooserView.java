@@ -49,6 +49,7 @@ public class RibbonColorChooserView extends JPanel {
             }
         });
         openChooser = new JButton("Open Color Chooser");
+        openChooser.setToolTipText("Opens Advanced Color options window");
         openChooser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

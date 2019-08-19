@@ -30,8 +30,8 @@ public class RibbonBrushView extends JPanel implements ActionListener {
     JButton brushOptions;
     JComboBox<String> brushThickness;
     JComboBox<String> pencilType;
-    String[] thicknesses = {"thin", "medthin", "med", "medthick", "thick"};
-    String[] pencils = {"pencil", "paintbrush"};
+    String[] thicknesses = {"Thin", "Medium Thin", "Medium", "Medium Thick", "Thick"};
+    String[] pencils = {"Pencil", "Paintbrush"};
     int newBrushSize;
     Brush newBrush;
 
@@ -48,7 +48,9 @@ public class RibbonBrushView extends JPanel implements ActionListener {
 
         JPanel inner_brushes = new JPanel(new BorderLayout());
         brushThickness = new JComboBox<>(thicknesses);
+        brushThickness.setToolTipText("Changes the thickness of the current brush");
         pencilType = new JComboBox<>(pencils);
+        pencilType.setToolTipText("Changes the type of brush being used");
         brushThickness.setPreferredSize(new Dimension(100,30));
         pencilType.setPreferredSize(new Dimension(100,30));
 
@@ -57,6 +59,7 @@ public class RibbonBrushView extends JPanel implements ActionListener {
 
         // component instantiation
         brushOptions = new JButton("Brush Options");
+        brushOptions.setToolTipText("Opens Brush Options Window");
         brushOptions.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -86,33 +89,33 @@ public class RibbonBrushView extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == brushThickness) {
             String selection = (String) brushThickness.getSelectedItem();
-            if (selection.equals("thin")) {
+            if (selection.equals("Thin")) {
                 newBrushSize = 5;
                 newBrush.changeBrushSize(this.newBrushSize); // you don't want to change the size of the current brush, because it will repaint everything else
                 MainFrame.canvas.changeBrush(newBrush);
-            } else if (selection.equals("medthin")) {
+            } else if (selection.equals("Medioum Thin")) {
                 newBrushSize = 10;
                 newBrush.changeBrushSize(this.newBrushSize); // you don't want to change the size of the current brush, because it will repaint everything else
                 MainFrame.canvas.changeBrush(newBrush);
-            } else if (selection.equals("med")) {
+            } else if (selection.equals("Medium")) {
                 newBrushSize = 20;
                 newBrush.changeBrushSize(this.newBrushSize); // you don't want to change the size of the current brush, because it will repaint everything else
                 MainFrame.canvas.changeBrush(newBrush);
-            } else if (selection.equals("medthick")) {
+            } else if (selection.equals("Medium Thick")) {
                 newBrushSize = 30;
                 newBrush.changeBrushSize(this.newBrushSize); // you don't want to change the size of the current brush, because it will repaint everything else
                 MainFrame.canvas.changeBrush(newBrush);
-            } else if (selection.equals("thick")) {
+            } else if (selection.equals("Thick")) {
                 newBrushSize = 40;
                 newBrush.changeBrushSize(this.newBrushSize); // you don't want to change the size of the current brush, because it will repaint everything else
                 MainFrame.canvas.changeBrush(newBrush);
             }
         } else if (e.getSource() == pencilType) {
             String selection = (String) pencilType.getSelectedItem();
-            if (selection.equals("pencil")) {
+            if (selection.equals("Pencil")) {
                 this.newBrush = new PencilBrush(this.newBrushSize);
                 MainFrame.canvas.changeBrush(newBrush);
-            } else if (selection.equals("paintbrush")) {
+            } else if (selection.equals("Paintbrush")) {
                 this.newBrush = new PaintBrush(this.newBrushSize);
                 MainFrame.canvas.changeBrush(newBrush);
             }

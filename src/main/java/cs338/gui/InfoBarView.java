@@ -51,6 +51,9 @@ public class InfoBarView extends JPanel implements ActionListener {
         zoomSlider.setMajorTickSpacing(25);
         zoomSlider.setPaintTicks(true);
         zoomSlider.setSnapToTicks(true);
+        zoomSlider.setToolTipText("Zooms in/out on canvas");
+        pointPos.setToolTipText("Shows the current pointer position on canvas");
+        canvasSize.setToolTipText("Current size of canvas");
         sep1 = new JSeparator(SwingConstants.VERTICAL);
         sep2 = new JSeparator(SwingConstants.VERTICAL);
         sep3 = new JSeparator(SwingConstants.VERTICAL);
@@ -64,8 +67,8 @@ public class InfoBarView extends JPanel implements ActionListener {
         canvSize = new JPanel(new BorderLayout());
         sliderPane = new JPanel(new BorderLayout());
 
-        this.pointerPosition.setPreferredSize(new Dimension(200,20));
-        this.zoomSlider.setPreferredSize(new Dimension(50,10));
+        this.pointerPosition.setPreferredSize(new Dimension(100,35));
+        this.zoomSlider.setPreferredSize(new Dimension(50,35));
 
         // add components to panels
         pointerPosition.add(this.pointPos, BorderLayout.WEST);
@@ -89,7 +92,7 @@ public class InfoBarView extends JPanel implements ActionListener {
         this.add(sep1);
         this.add(Box.createRigidArea(new Dimension(5,0)));
         this.add(canvasSize);
-        this.add(Box.createRigidArea(new Dimension(5,0)));
+        this.add(Box.createRigidArea(new Dimension(120,0)));
         this.add(sep3);
         this.add(Box.createRigidArea(new Dimension(5,0)));
         this.add(sliderPane);

@@ -6,8 +6,10 @@ import javax.swing.JPanel;
 import cs338.gui.MainFrame;
 import cs338.gui.ribbon.RibbonView;
 import cs338.gui.shapes.CurvedLine;
+import cs338.gui.shapes.HighlighterLine;
 import cs338.gui.shapes.ImageShape;
 import cs338.gui.shapes.Line;
+import cs338.gui.shapes.Oval;
 import cs338.gui.shapes.Rectangle;
 import cs338.gui.shapes.Shape;
 import cs338.gui.shapes.TextShape;
@@ -21,6 +23,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Stack;
+
 import static cs338.gui.ribbon.RibbonView.tools;
 import java.awt.AWTException;
 import java.awt.Color;
@@ -35,10 +39,13 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
     // constants
     private static final long serialVersionUID = 1L;
     private static int W = 750;
-    private static int H = 600;
+    private static int H = 750;
 
     // attirbutes
     private ArrayList<Shape> shapes;
+    private Integer lineCount;
+    private Stack<Integer> allLineCounts;
+    private Stack<ArrayList<Shape>> redoStack;
     private Brush currBrush;
     private JColorChooser my_colors;
     private boolean hasBeenSaved, hasBeenDrawn, hasLoaded;
@@ -50,6 +57,9 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
     public PaintCanvasView() {
         super();
         this.shapes = new ArrayList<>();
+        this.redoStack = new Stack<>();
+        this.lineCount = 0;
+        this.allLineCounts = new Stack<>();
         this.my_colors = RibbonView.getPallette();
         this.currBrush = new PencilBrush(5);
         this.currentTool = Tool.PENCIL;
@@ -105,6 +115,12 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         this.hasLoaded = true;
     }
 
+    public void setBackground() {
+        this.setBackground(my_colors.getColor());
+        repaint();
+        return;
+    }
+
     public void rotate() {
         for(int i = 0; i<this.shapes.size(); i++) {
 
@@ -140,6 +156,9 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         this.removeAll();
         this.revalidate();
         this.shapes.clear();
+        this.redoStack.clear();
+        MainFrame.menubar.disableRedo();
+        tools.disableRedo();
         this.hasBeenDrawn = false;
         this.hasBeenSaved = false;
         this.repaint();
@@ -153,12 +172,35 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
 
     // undo/redo
     public void undo() {
+        Integer lastLineCount = allLineCounts.pop();
+        int sizeOfShapes = shapes.size();
+        ArrayList<Shape> redoLine = new ArrayList<>();
+        for (int i= 0; i < lastLineCount; i++) {
+            redoLine.add(shapes.get(sizeOfShapes-1-i));
+            shapes.remove(sizeOfShapes-1-i);
+        }
+        redoStack.push(redoLine);
+        if (allLineCounts.isEmpty()) {
+            MainFrame.menubar.disableUndo();
+            tools.disableUndo();
+        }
         MainFrame.menubar.enableRedo();
         tools.enableRedo();
         this.repaint();
     }
 
     public void redo() {
+        ArrayList<Shape> redo = redoStack.pop();
+        allLineCounts.push(redo.size());
+        for(int i =0; i<redo.size(); i++) {
+            shapes.add(redo.get(i));
+        }
+        if (redoStack.isEmpty()) {
+            MainFrame.menubar.disableRedo();
+            tools.disableRedo();
+        }
+        MainFrame.menubar.enableUndo();
+        tools.enableUndo();
         this.repaint();
     }
 
@@ -202,14 +244,23 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
             s = new CurvedLine(Color.WHITE, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
         } else if (currentTool == Tool.FONT) {
             return;
+        } else if (currentTool == Tool.PAINTCAN) {
+            return;
         } else if (currentTool == Tool.LINE) {
             this.end = e.getPoint();
             s = new Line(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.end);
             this.start = this.end;
         } else if (currentTool == Tool.RECTANGLE) {
             s = new Rectangle(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),e.getPoint());
+        } else if (currentTool == Tool.OVAL) {
+            s = new Oval(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),e.getPoint());
+        } else if (currentTool == Tool.HIGHLIGHTER) {
+            Color newcolor = new Color(my_colors.getColor().getRed(),my_colors.getColor().getGreen(),my_colors.getColor().getBlue(), 10);
+            s = new HighlighterLine(newcolor, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
         }
         shapes.add(s);
+        lineCount++;
+        System.out.println("Current line count: " + lineCount);
         repaint();
     }
 
@@ -223,10 +274,14 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         } else if (currentTool == Tool.RECTANGLE) {
             start = e.getPoint();
             s = new Rectangle(my_colors.getColor(), start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), new Point(e.getPoint().x, e.getPoint().y));
+        } else if (currentTool == Tool.OVAL) {
+            start = e.getPoint();
+            s = new Oval(my_colors.getColor(), start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),new Point(e.getPoint().x, e.getPoint().y));
         } else {
             return;
         }
         shapes.add(s);
+        lineCount++;
         repaint();
     }
 
@@ -242,10 +297,18 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
             fcv.setVisible(true);
             System.out.println(fcv.getFontType().toString());
             s = new TextShape(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(),fcv.getText(), fcv.getFontType());
+        } else if (this.currentTool == Tool.PAINTCAN) {
+            this.setBackground();
+            return;
+        } else if (this.currentTool == Tool.HIGHLIGHTER) {
+            Color newcolor = new Color(my_colors.getColor().getRed(),my_colors.getColor().getGreen(),my_colors.getColor().getBlue(), 10);
+            s = new HighlighterLine(newcolor, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
         } else {
             return;
         }
         shapes.add(s);
+        lineCount++;
+        System.out.println("Current line count: " + lineCount);
         repaint();
     }
     
@@ -279,6 +342,9 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         this.hasBeenDrawn = true;
         MainFrame.menubar.enableUndo();
         tools.enableUndo();
+        Integer count = lineCount;
+        allLineCounts.push(count);
+        lineCount = 0;
         repaint();
         return;
     }
