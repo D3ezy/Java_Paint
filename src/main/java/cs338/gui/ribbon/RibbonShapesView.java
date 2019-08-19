@@ -6,6 +6,7 @@ import java.awt.Color;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -16,7 +17,8 @@ public class RibbonShapesView extends JPanel {
 
     private static final long serialVersionUID = 1L;
     JPanel inner_shapes;
-    JButton shapes, shapeOutline, shapeFill;
+    JButton shapeOutline, shapeFill;
+    JList<JButton> shapes;
 
     RibbonShapesView() {
         super();
@@ -36,7 +38,10 @@ public class RibbonShapesView extends JPanel {
         JLabel shapesLabel = new JLabel("Shapes", SwingConstants.CENTER);
 
         // init buttons
-        shapes = new JButton("Shapes");
+        shapes = new JList<>();
+        shapes.add(new JButton("line"));
+        shapes.add(new JButton("square"));
+        shapes.add(new JButton("freehand"));
         shapeOutline = new JButton("Outline");
         shapeFill = new JButton("Fill");
 

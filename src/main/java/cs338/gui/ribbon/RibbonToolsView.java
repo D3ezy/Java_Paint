@@ -3,6 +3,8 @@ package cs338.gui.ribbon;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,11 +12,13 @@ import javax.swing.SwingConstants;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.swing.FontIcon;
 
-public class RibbonToolsView extends JPanel {
+import cs338.gui.MainFrame;
+
+public class RibbonToolsView extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     JPanel ribbon_inner_tools;
-    JButton pencil, magnify, eraser, font, dropper, paintcan;
+    JButton pencil, magnify, eraser, font, dropper, paintcan, undo, redo;
 
     RibbonToolsView() {
         super();
@@ -27,7 +31,7 @@ public class RibbonToolsView extends JPanel {
 
         // inner layout
         ribbon_inner_tools = new JPanel();
-        GridLayout inner_tools_layout = new GridLayout(2,3);
+        GridLayout inner_tools_layout = new GridLayout(2,4);
         ribbon_inner_tools.setLayout(inner_tools_layout);
 
         // labels
@@ -40,6 +44,19 @@ public class RibbonToolsView extends JPanel {
         magnify = new JButton();
         dropper = new JButton();
         paintcan = new JButton("C");
+        undo = new JButton();
+        undo.setEnabled(false);
+        redo = new JButton();
+        redo.setEnabled(false);
+
+        pencil.addActionListener(this);
+        eraser.addActionListener(this);
+        font.addActionListener(this);
+        magnify.addActionListener(this);
+        dropper.addActionListener(this);
+        paintcan.addActionListener(this);
+        undo.addActionListener(this);
+        redo.addActionListener(this);
 
         // add components
         ribbon_inner_tools.add(pencil);
@@ -48,6 +65,8 @@ public class RibbonToolsView extends JPanel {
         ribbon_inner_tools.add(font);
         ribbon_inner_tools.add(dropper);
         ribbon_inner_tools.add(paintcan);
+        ribbon_inner_tools.add(undo);
+        ribbon_inner_tools.add(redo);
 
         this.add(ribbon_inner_tools, BorderLayout.CENTER);
         this.add(toolsLabel, BorderLayout.SOUTH);
@@ -60,12 +79,40 @@ public class RibbonToolsView extends JPanel {
         FontIcon magnify_icon = FontIcon.of(FontAwesomeSolid.SEARCH_PLUS, Color.BLACK);
         FontIcon dropper_icon = FontIcon.of(FontAwesomeSolid.EYE_DROPPER, Color.BLACK);
         // FontIcon paintcan_icon = FontIcon.of(FontAwesomeSolid.FILL_DRIP, Color.BLACK);
+        FontIcon undo_icon = FontIcon.of(FontAwesomeSolid.UNDO, Color.BLACK);
+        FontIcon redo_icon = FontIcon.of(FontAwesomeSolid.REDO, Color.BLACK);
+
         pencil.setIcon(pencil_icon);
         eraser.setIcon(eraser_icon);
         font.setIcon(text_icon);
         magnify.setIcon(magnify_icon);
         dropper.setIcon(dropper_icon);
+        undo.setIcon(undo_icon);
+        redo.setIcon(redo_icon);
 
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == pencil ) {
+            this.pencil.setEnabled(true);
+            MainFrame.canvas.setColor(Color.BLACK);
+        } else if(e.getSource() == eraser) {
+            this.eraser.setEnabled(true);
+            MainFrame.canvas.setColor(Color.WHITE);
+        } else if(e.getSource() == font) {
+            
+        } else if(e.getSource() == magnify) {
+            
+        } else if(e.getSource() == dropper) {
+            
+        } else if(e.getSource() == paintcan) {
+            
+        } else if (e.getSource() == undo) {
+            
+        } else if (e.getSource() == redo) {
+
+        }
+	}
 
 }

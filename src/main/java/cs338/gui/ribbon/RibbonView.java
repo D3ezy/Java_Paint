@@ -12,7 +12,6 @@ import java.awt.Dimension;
 public class RibbonView extends JPanel {
     
     private static final long serialVersionUID = 1L;
-    private RibbonClipboardView clipboard;
     private RibbonImageView image;
     private RibbonToolsView tools;
     private RibbonShapesView shapes;
@@ -27,7 +26,6 @@ public class RibbonView extends JPanel {
 
     public void initComponents() {
         // Component Instantiation
-        clipboard = new RibbonClipboardView();
         image = new RibbonImageView();
         tools = new RibbonToolsView();
         shapes = new RibbonShapesView();
@@ -43,10 +41,6 @@ public class RibbonView extends JPanel {
         JSeparator rib_sep7 = new JSeparator(SwingConstants.VERTICAL);
    
         // Main Ribbon
-        this.add(Box.createRigidArea(new Dimension(5,0)));
-        this.add(clipboard);                                    // Clipboard
-        this.add(Box.createRigidArea(new Dimension(5,0)));
-        this.add(rib_sep1);                                     // Separator
         this.add(Box.createRigidArea(new Dimension(5,0)));
         this.add(image);                                        // Image
         this.add(Box.createRigidArea(new Dimension(5,0)));

@@ -3,7 +3,6 @@ package cs338.gui;
 import cs338.gui.canvas.PaintCanvasView;
 import cs338.gui.ribbon.RibbonView;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -19,11 +18,11 @@ import javax.swing.border.EtchedBorder;
 public class MainFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    JMenuBar menubar;
     JMenu filemenu, viewmenu;
     JMenuItem newFile, zoomIn, zoomOut;
     public static PaintCanvasView canvas;
     public static InfoBarView info_bar;
+    public static MenuBarView menubar;
     
     public MainFrame() {
         initComponents();

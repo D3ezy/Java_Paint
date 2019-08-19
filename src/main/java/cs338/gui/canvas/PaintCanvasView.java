@@ -6,7 +6,9 @@ import javax.swing.JPanel;
 import cs338.gui.MainFrame;
 import cs338.gui.ribbon.RibbonView;
 import cs338.gui.shapes.CurvedLine;
+import cs338.gui.shapes.ImageShape;
 import cs338.gui.shapes.Shape;
+import cs338.gui.subwindows.FileNotSavedDialogView;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
@@ -16,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Stack;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,15 +36,21 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
 
     // attirbutes
     private ArrayList<Shape> shapes;
+    private Stack<Shape> redoStack;
     private Brush currBrush;
     private JColorChooser my_colors;
+    private boolean hasBeenSaved, hasBeenDrawn, hasLoaded;
 
     // default constructor
     public PaintCanvasView() {
         super();
         this.shapes = new ArrayList<>();
+        this.redoStack = new Stack<>();
         this.my_colors = RibbonView.getPallette();
         this.currBrush = new PencilBrush(5);
+        this.hasBeenDrawn = false;
+        this.hasBeenSaved = false;
+        this.hasLoaded = false;
         setDoubleBuffered(false);
         addComponentListener(this);
         addMouseListener(this);
@@ -71,6 +80,7 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.hasBeenSaved = true;
     }
 
     public void loadImage(String name) {
@@ -81,11 +91,13 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         BufferedImage loadImg = null;
         try {
             loadImg = ImageIO.read(new File(name));
+            Shape image = new ImageShape(null, null, 0, 0, loadImg);
+            this.shapes.add(image);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Graphics g = this.getGraphics();
-        g.drawImage(loadImg, 0, 0, null);
+        this.repaint();
+        this.hasLoaded = true;
     }
 
     // getters/setters
@@ -104,9 +116,18 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
 
     // clears canvas
     public void clear() {
+        if (hasBeenDrawn == true && hasBeenSaved == false) {
+            FileNotSavedDialogView notSaved = new FileNotSavedDialogView();
+            notSaved.setVisible(true);
+            if(notSaved.handle() == 1) {
+                return;
+            }
+        }
         this.removeAll();
         this.revalidate();
         this.shapes.clear();
+        this.hasBeenDrawn = false;
+        this.hasBeenSaved = false;
         this.repaint();
         return;
     }
@@ -116,12 +137,48 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         return;
     }
 
+    // undo/redo
+    public void undo() {
+        int undoSize = this.shapes.size();
+        Shape lastState = this.shapes.get(undoSize-1);
+        this.redoStack.push(lastState);
+        this.shapes.remove(undoSize-1);
+        this.shapes.trimToSize();
+        MainFrame.menubar.enableRedo();
+        this.repaint();
+    }
+
+    public void redo() {
+        Shape redoShape = this.redoStack.pop();
+        this.shapes.add(redoShape);
+        this.repaint();
+    }
+
+    public int getRedoStackSize() {
+        return this.redoStack.size();
+    }
+
+    public void setColor(Color c) {
+        this.my_colors.setColor(Color.WHITE);
+        return;
+    }
+
+    public boolean hasFileBeenLoaded() {
+        return this.hasLoaded;
+    }
+
+    public void setHasBeenDrawn(boolean value) {
+        this.hasBeenDrawn = value;
+        return;
+    }
+
     // -----------------------------------------------------------------
     // ---- Inherited/Overridden Methods
     // -----------------------------------------------------------------
 
     @Override
     public void paintComponent(Graphics g) {
+        MainFrame.menubar.enableUndo();
         super.paintComponent(g);
         for(Shape s : shapes) {
             s.paint(g);
@@ -164,12 +221,15 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         MainFrame.info_bar.updateCanvasSize(w, h);
     }
 
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        this.hasBeenDrawn = true;
+        return;
+    }
+
     // unused
 	@Override
 	public void mousePressed(MouseEvent e) {}
-	@Override
-    public void mouseReleased(MouseEvent e) {
-    }
     @Override
     public void componentMoved(ComponentEvent e) {}
     @Override
