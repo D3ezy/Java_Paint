@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -75,6 +74,7 @@ public class RibbonShapesView extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == shapes) {
             Tool t = (Tool) this.shapes.getSelectedItem();
+            RibbonView.tools.shape.setSelected(true);
             MainFrame.canvas.setCurrentTool(t);
         } else if (e.getSource() == shapeOutline) {
 
