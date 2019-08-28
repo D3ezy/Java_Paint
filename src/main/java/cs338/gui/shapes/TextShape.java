@@ -11,8 +11,8 @@ public class TextShape extends Shape {
     int size;
     Font fontToUse;
 
-    public TextShape(Color mycolor, Point mypoint, int brushX, int brushY, String s, Font f) {
-        super(mycolor, mypoint, brushX, brushY);
+    public TextShape(Color mycolor, Point mypoint, int brushX, int brushY, String s, Font f, int zoom) {
+        super(mycolor, mypoint, brushX, brushY, zoom);
         this.text = s;
         this.fontToUse= f;
     }

@@ -8,8 +8,8 @@ public class Rectangle extends Shape {
 
     Point end;
 
-    public Rectangle(Color mycolor, Point mypoint, int brushX, int brushY, Point endpoint) {
-        super(mycolor, mypoint, brushX, brushY);
+    public Rectangle(Color mycolor, Point mypoint, int brushX, int brushY, Point endpoint, int zoom) {
+        super(mycolor, mypoint, brushX, brushY, zoom);
         this.end = endpoint;
     }
 

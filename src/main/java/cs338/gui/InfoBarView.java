@@ -29,6 +29,7 @@ public class InfoBarView extends JPanel implements ActionListener {
     JButton zoomPlus, zoomMinus;
     JSeparator sep1,sep2,sep3,sep4,sep5;
     JPanel pointerPosition, canvSize, sliderPane;
+    int count;
 
     InfoBarView() {
         super();
@@ -44,11 +45,15 @@ public class InfoBarView extends JPanel implements ActionListener {
 
     // Layouts the info panel
     public void initComponents() {
+        count = 1;
         pointPos = new JLabel("Shows current pointer position");
         canvasSize = new JLabel("Shows canvas size");
         zoomSlider = new JSlider(SwingConstants.HORIZONTAL);
-        zoomSlider.setMinorTickSpacing(5);
-        zoomSlider.setMajorTickSpacing(25);
+        zoomSlider.setValue(1);
+        zoomSlider.setMinimum(1);
+        zoomSlider.setMaximum(10);
+        zoomSlider.setMinorTickSpacing(1);
+        zoomSlider.setMajorTickSpacing(1);
         zoomSlider.setPaintTicks(true);
         zoomSlider.setSnapToTicks(true);
         zoomSlider.setToolTipText("Zooms in/out on canvas");
@@ -128,9 +133,17 @@ public class InfoBarView extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == zoomPlus) {
-            this.zoomSlider.setValue(this.zoomSlider.getValue()+5);
+            if (count < this.zoomSlider.getMaximum()) {
+                this.zoomSlider.setValue(this.zoomSlider.getValue()+1);
+                MainFrame.canvas.zoomIn();
+                count++;
+            }
         } else if (e.getSource() == zoomMinus) {
-            this.zoomSlider.setValue(this.zoomSlider.getValue()-5);
+            if (count > this.zoomSlider.getMinimum()) {
+                this.zoomSlider.setValue(this.zoomSlider.getValue()-1);
+                MainFrame.canvas.zoomOut();
+                count--;
+            }
         }
 	}
 }

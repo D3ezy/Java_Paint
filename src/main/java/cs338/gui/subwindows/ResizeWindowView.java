@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -73,9 +74,14 @@ public class ResizeWindowView extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
-            int horizontal = Integer.parseInt(this.horField.getText());
-            int vertical = Integer.parseInt(this.vertField.getText());
-            Dimension newDim = new Dimension(horizontal, vertical);
+            Dimension newDim = null;
+            try {
+                int horizontal = Integer.parseInt(this.horField.getText());
+                int vertical = Integer.parseInt(this.vertField.getText());
+                newDim = new Dimension(horizontal, vertical);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Please use numbers as input.");
+            }
             MainFrame.canvas.updateCanvasSize(newDim);
             this.dispose();
         } else if (e.getSource() == cancelButton) {

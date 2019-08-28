@@ -46,22 +46,17 @@ What works properly:
 - New file prompt (This file has not been saved, would you like to?)
 - painting textbox on screen
 - Keyboard shortcuts
+- Resizing the canvas
+- Zooming in on the canvas (partially)
 
 
 :: PROBLEMS
-
-What doesn't work correctly yet:
-
-- Resizing the canvas (NOTE: I changed the default size of canvas for submission to show that scroll bars have been implemented once this is working)
-- Zooming in on the canvas (NOTE: I changed the default size of canvas for submission to show that scroll bars have been implemented once this is working)
-- Drawing fixed lines
-- Outline/Fill
 - Rotate
 
-To be done: 
+To be done (after term): 
 
-- Correctly implement the features listed above
-- Clean up subwindows to look more presentable
+- Outline/Fill
+- Clean up subwindows
 - Add more font and shape options
 - Add more brush size options
 - Add Tool Tips where needed

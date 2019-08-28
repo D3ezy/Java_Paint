@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
-
 import static cs338.gui.ribbon.RibbonView.tools;
 import java.awt.AWTException;
 import java.awt.Color;
@@ -38,8 +37,6 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
 
     // constants
     private static final long serialVersionUID = 1L;
-    private static int W = 750;
-    private static int H = 750;
 
     // attirbutes
     private ArrayList<Shape> shapes;
@@ -52,6 +49,8 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
     private Tool currentTool;
     private Point start = null;
     private Point end = null;
+    private int zoomFactor;
+    private int origHeight, origWidth;
 
     // default constructor
     public PaintCanvasView() {
@@ -59,24 +58,22 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         this.shapes = new ArrayList<>();
         this.redoStack = new Stack<>();
         this.lineCount = 0;
+        this.zoomFactor = 1;
         this.allLineCounts = new Stack<>();
         this.my_colors = RibbonView.getPallette();
         this.currBrush = new PencilBrush(5);
         this.currentTool = Tool.PENCIL;
         this.hasBeenDrawn = false;
+        this.setPreferredSize(new Dimension(750,750));
+        this.origHeight = 750;
+        this.origWidth = 750;
+        this.setBackground(Color.WHITE);
         this.hasBeenSaved = false;
         this.hasLoaded = false;
         setDoubleBuffered(false);
         addComponentListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
-        initComponents();
-    }
-
-    // initialize subsequent components
-    public void initComponents() {
-        this.setSize(this.getPreferredSize());
-        this.setBackground(Color.WHITE);
     }
 
     // save/load
@@ -106,7 +103,7 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         BufferedImage loadImg = null;
         try {
             loadImg = ImageIO.read(new File(name));
-            Shape image = new ImageShape(null, null, 0, 0, loadImg);
+            Shape image = new ImageShape(null, null, 0, 0, loadImg, this.zoomFactor);
             this.shapes.add(image);
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,21 +119,15 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
     }
 
     public void rotate() {
-        for(int i = 0; i<this.shapes.size(); i++) {
-
-        }
+        this.repaint();
     }
-
-    // getters/setters
-    public Dimension getPreferredSize() {
-        return new Dimension(W,H);
-    }
-
+    
     public void updateCanvasSize(Dimension newSize) {
-        W = 2000;
-        H = 2000;
-        this.getPreferredSize();
-        this.setVisible(true);
+        double height = newSize.getHeight()*zoomFactor;
+        double width = newSize.getWidth()*zoomFactor;
+        this.setPreferredSize(new Dimension((int)Math.round(width), (int)Math.round(height)));
+        this.revalidate();
+        this.repaint();
         return;
     }
 
@@ -223,6 +214,24 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         return;
     }
 
+    public void zoomIn() {
+        this.zoomFactor += 1;
+        for (int i = 0; i < this.shapes.size(); i++) {
+            this.shapes.get(i).setZoomFactor(this.zoomFactor);
+        }
+        this.updateCanvasSize(new Dimension(this.origWidth, this.origHeight));
+        return;
+    }
+
+    public void zoomOut() {
+        this.zoomFactor -= 1;
+        for (int i = 0; i < this.shapes.size(); i++) {
+            this.shapes.get(i).setZoomFactor(this.zoomFactor);
+        }
+        this.updateCanvasSize(new Dimension(this.origWidth, this.origHeight));
+        return;
+    }
+
     // -----------------------------------------------------------------
     // ---- Inherited/Overridden Methods
     // -----------------------------------------------------------------
@@ -239,24 +248,24 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
     public void mouseDragged(MouseEvent e) {
         Shape s = null;
         if (this.currentTool == Tool.PENCIL) {
-            s = new CurvedLine(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
+            s = new CurvedLine(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.zoomFactor);
         } else if (currentTool == Tool.ERASER) {
-            s = new CurvedLine(Color.WHITE, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
+            s = new CurvedLine(Color.WHITE, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.zoomFactor);
         } else if (currentTool == Tool.FONT) {
             return;
         } else if (currentTool == Tool.PAINTCAN) {
             return;
         } else if (currentTool == Tool.LINE) {
             this.end = e.getPoint();
-            s = new Line(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.end);
+            s = new Line(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.end, this.zoomFactor);
             this.start = this.end;
         } else if (currentTool == Tool.RECTANGLE) {
-            s = new Rectangle(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),e.getPoint());
+            s = new Rectangle(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),e.getPoint(), this.zoomFactor);
         } else if (currentTool == Tool.OVAL) {
-            s = new Oval(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),e.getPoint());
+            s = new Oval(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),e.getPoint(), this.zoomFactor);
         } else if (currentTool == Tool.HIGHLIGHTER) {
             Color newcolor = new Color(my_colors.getColor().getRed(),my_colors.getColor().getGreen(),my_colors.getColor().getBlue(), 10);
-            s = new HighlighterLine(newcolor, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
+            s = new HighlighterLine(newcolor, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.zoomFactor);
         }
         shapes.add(s);
         lineCount++;
@@ -269,14 +278,14 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
         Shape s = null;
         if (currentTool == Tool.LINE) {
             start = e.getPoint();
-            s = new Line(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.start);
+            s = new Line(my_colors.getColor(), this.start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.start, this.zoomFactor);
             return;
         } else if (currentTool == Tool.RECTANGLE) {
             start = e.getPoint();
-            s = new Rectangle(my_colors.getColor(), start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), new Point(e.getPoint().x, e.getPoint().y));
+            s = new Rectangle(my_colors.getColor(), start, this.currBrush.getBrushX(), this.currBrush.getBrushY(), new Point(e.getPoint().x, e.getPoint().y), this.zoomFactor);
         } else if (currentTool == Tool.OVAL) {
             start = e.getPoint();
-            s = new Oval(my_colors.getColor(), start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),new Point(e.getPoint().x, e.getPoint().y));
+            s = new Oval(my_colors.getColor(), start, this.currBrush.getBrushX(), this.currBrush.getBrushY(),new Point(e.getPoint().x, e.getPoint().y), this.zoomFactor);
         } else {
             return;
         }
@@ -289,20 +298,20 @@ public class PaintCanvasView extends JPanel implements MouseListener, MouseMotio
 	public void mouseClicked(MouseEvent e) {
         Shape s = null;
         if (this.currentTool == Tool.PENCIL) {
-            s = new CurvedLine(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
+            s = new CurvedLine(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.zoomFactor);
         } else if (currentTool == Tool.ERASER) {
-            s = new CurvedLine(Color.WHITE, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
+            s = new CurvedLine(Color.WHITE, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.zoomFactor);
         } else if (currentTool == Tool.FONT) {
             FontChooserView fcv = new FontChooserView();
             fcv.setVisible(true);
             System.out.println(fcv.getFontType().toString());
-            s = new TextShape(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(),fcv.getText(), fcv.getFontType());
+            s = new TextShape(my_colors.getColor(), e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(),fcv.getText(), fcv.getFontType(), this.zoomFactor);
         } else if (this.currentTool == Tool.PAINTCAN) {
             this.setBackground();
             return;
         } else if (this.currentTool == Tool.HIGHLIGHTER) {
             Color newcolor = new Color(my_colors.getColor().getRed(),my_colors.getColor().getGreen(),my_colors.getColor().getBlue(), 10);
-            s = new HighlighterLine(newcolor, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY());
+            s = new HighlighterLine(newcolor, e.getPoint(), this.currBrush.getBrushX(), this.currBrush.getBrushY(), this.zoomFactor);
         } else {
             return;
         }

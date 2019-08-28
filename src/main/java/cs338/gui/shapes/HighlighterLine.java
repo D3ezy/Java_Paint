@@ -6,8 +6,8 @@ import java.awt.Point;
 
 public class HighlighterLine extends Shape {
 
-    public HighlighterLine(Color mycolor, Point mypoint, int brushX, int brushY) {
-		super(mycolor, mypoint, brushX, brushY);
+    public HighlighterLine(Color mycolor, Point mypoint, int brushX, int brushY, int zoom) {
+		super(mycolor, mypoint, brushX, brushY, zoom);
 	}
 
     @Override

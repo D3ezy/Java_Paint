@@ -6,8 +6,8 @@ import java.awt.Point;
 
 public class CurvedLine extends Shape {
 
-    public CurvedLine(Color mycolor, Point mypoint, int brushX, int brushY) {
-		super(mycolor, mypoint, brushX, brushY);
+    public CurvedLine(Color mycolor, Point mypoint, int brushX, int brushY, int zoom) {
+		super(mycolor, mypoint, brushX, brushY, zoom);
 	}
 
     @Override

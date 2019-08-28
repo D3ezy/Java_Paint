@@ -8,8 +8,8 @@ public class Line extends Shape {
 
 	private int x2,y2;
 
-    public Line(Color mycolor, Point mypoint, int brushX, int brushY, Point endpoint) {
-		super(mycolor, mypoint, brushX, brushY);
+    public Line(Color mycolor, Point mypoint, int brushX, int brushY, Point endpoint, int zoom) {
+		super(mycolor, mypoint, brushX, brushY, zoom);
 		this.x2 = endpoint.x;
 		this.y2 = endpoint.y;
 	}

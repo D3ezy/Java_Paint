@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import cs338.gui.MainFrame;
@@ -60,12 +61,15 @@ public class PropertiesWindowView extends JFrame {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Dimension newSize = new Dimension();
-                String width = widthTextField.getText();
-                String height = heightTextField.getText();
-                newSize.setSize(Double.parseDouble(width), Double.parseDouble(height));
-                MainFrame.canvas.setSize(newSize);
-                dispose();
+            Dimension newDim = null;
+            try {
+                int horizontal = Integer.parseInt(widthTextField.getText());
+                int vertical = Integer.parseInt(heightTextField.getText());
+                newDim = new Dimension(horizontal, vertical);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Please use numbers as input.");
+            }
+                MainFrame.canvas.updateCanvasSize(newDim);
 			}
             
         });

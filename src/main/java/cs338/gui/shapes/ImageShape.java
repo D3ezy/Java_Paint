@@ -9,8 +9,8 @@ public class ImageShape extends Shape {
 
     BufferedImage img;
 
-    public ImageShape(Color mycolor, Point mypoint, int brushX, int brushY, BufferedImage load) {
-        super(mycolor, mypoint, brushX, brushY);
+    public ImageShape(Color mycolor, Point mypoint, int brushX, int brushY, BufferedImage load, int zoom) {
+        super(mycolor, mypoint, brushX, brushY, zoom);
         this.img = load;
     }
 

@@ -8,8 +8,8 @@ public class Oval extends Shape {
 
     Point end;
 
-    public Oval(Color mycolor, Point mypoint, int brushX, int brushY, Point endpoint) {
-        super(mycolor, mypoint, brushX, brushY);
+    public Oval(Color mycolor, Point mypoint, int brushX, int brushY, Point endpoint, int zoom) {
+        super(mycolor, mypoint, brushX, brushY, zoom);
         this.end = endpoint;
     }
 
